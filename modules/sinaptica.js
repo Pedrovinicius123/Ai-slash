@@ -59,16 +59,21 @@ const generateSubArray = (i, j, mtrx) => {
     }
 } 
 
-
-const generateArray = async (i, j) => {
-
-    let mtrx = new Array()    
-    parallel(generateSubArray(i,j, mtrx))
-
-    return mtrx
+class brain {
+    constructor(i, j){
+        this.i = i
+        this.j = j
+        this.mtrx = []
+    }
+    
+    generateArray = async () => {    
+        parallel(generateSubArray(this.i,this.j, this.mtrx))
+    
+        return this.mtrx
+    }
 }
 
 module.exports = {
     sinaptic: sinapsis,
-    genArr : generateArray
+    machina: brain,
 }
