@@ -1,61 +1,74 @@
 const parallel = require('./parallel')
 
-let sinapsis = {
-    weight: Math.random(),
-    operation: 1,
-    switches: 0,
-    probability: 1,
-    deltay: 0,
+class sinapsis {
+    constructor(weight, switches=1, probability=1, deltay=0){
+        this.weight = weight;
+        this.switches = switches;
+        this.probability = probability;
+        this.deltay = deltay;
+        this.operation = {
+            up: true,
+            down: false
+        }
+    }
 
-    addWeight: async (lr) => {
+    addWeight = async (lr) => {
         this.weight += lr;
-    },
+    }
 
-    addSwitch: async () => {
+    addSwitch = async () => {
         this.switches++;
-    },
+    }
 
-    addProb: async (lr) => {
+    addProb = async (lr) => {
         this.probability += lr;
-    },
+    }
 
-    changeOperation: async () => {
-        if (operation > 0) { operation = -1 } else 1;
-    },
+    changeOperation = async () => {
+        if (operation.up === true) {
+            operation = {up:true, down:false}
+        } 
+        else { 
+            operation = {up: true, down:false};
+        }
+    }
 
-    changeDeltaY: async (newDeltay) => {
+    changeDeltaY = async (newDeltay) => {
         this.deltay = newDeltay
+    }
+
+    changeWeight = async (nWeight) => {
+        this.weight = nWeight
     }
 }
 
-let line = new Array();
+const generateSubArray = (i, j, mtrx) => {
 
-const generateArray = (i, j) => {
-
-    let mtrx
-    let item
-    for (let idx = 0; idx < i; idx++) {
-        let columns = new Array();
-
-        for (let idx = 0; idx < j; idx++) {
-            
-            sinapsis.weight = Math.random()
-            console.log(sinapsis.weight)
-
-            newsinapsis = sinapsis
-            item = newsinapsis
-            
-            columns.push(item)
-
+    const assigningIndexes = (j) => {
+        let line = new Array();
+        for(let idx = 0; idx < j; idx++) {
+            line.push(new sinapsis(Math.random()))                
         }
 
-        line.push(columns)
+        mtrx.push(line)
+        
     }
 
-    mtrx = line
+    for (let idx = 0; idx < i; idx++) {
+        assigningIndexes(j);
+    }
+} 
+
+
+const generateArray = async (i, j) => {
+
+    let mtrx = new Array()    
+    parallel(generateSubArray(i,j, mtrx))
 
     return mtrx
 }
 
-let arr = generateArray(2, 2)
-console.log(arr)
+module.exports = {
+    sinaptic: sinapsis,
+    genArr : generateArray
+}
