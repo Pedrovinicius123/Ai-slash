@@ -1,7 +1,17 @@
-const parallel = (operation) => {
-    return new Promisse((resolve, reject) => {
-        setTimeout(() => resolve(operation), 100);
-    });
+const {Worker, isMainThread} = require('worker_threads')
+
+const parallelizeFunction = (func) => {
+    if (isMainThread){
+        const worker = new Worker(__filename)
+
+        worker.on('message', result => {
+            console.log(result)
+        })
+    }
+
+    else {
+        func()
+    }
 }
 
-module.exports = parallel
+module.exports = parallelizeFunction
