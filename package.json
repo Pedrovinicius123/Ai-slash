@@ -1,0 +1,23 @@
+{
+  "name": "ai-slash",
+  "version": "1.0.0",
+  "description": "The first neuromorfic AI I ever made",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pedrovinicius123/Ai-slash.git"
+  },
+  "author": "Pedro Vinícius",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Pedrovinicius123/Ai-slash/issues"
+  },
+  "homepage": "https://github.com/Pedrovinicius123/Ai-slash#readme",
+  "dependencies": {
+    "jsnumpy": "^1.1.10",
+    "nodemon": "^3.1.0"
+  }
+}
