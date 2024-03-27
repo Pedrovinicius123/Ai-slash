@@ -1,11 +1,13 @@
-const parallel = require('./parallel')
+const {parallelize, retreiveInfo} = require('./parallel')
+const path = require('path')
+const fs = require('fs')
 
 class sinapsis {
-    constructor(weight, switches=1, probability=1, deltay=0){
+    constructor(weight){
         this.weight = weight;
-        this.switches = switches;
-        this.probability = probability;
-        this.deltay = deltay;
+        this.switches = 1;
+        this.probability = 1;
+        this.deltay = 0;
         this.operation = {
             up: true,
             down: false
@@ -42,21 +44,14 @@ class sinapsis {
     }
 }
 
-const generateSubArray = (i, j, mtrx) => {
+const generateSubArray = (params) => {
+    let line = new Array();
+    for(let idx = 0; idx < params.j; idx++) {
+        line.push(new sinapsis(Math.random()))
+    }   
 
-    const assigningIndexes = (j) => {
-        let line = new Array();
-        for(let idx = 0; idx < j; idx++) {
-            line.push(new sinapsis(Math.random()))                
-        }
+    return line
 
-        mtrx.push(line)
-        
-    }
-
-    for (let idx = 0; idx < i; idx++) {
-        assigningIndexes(j);
-    }
 } 
 
 class brain {
@@ -67,11 +62,12 @@ class brain {
     }
     
     generateArray = async () => {    
-        parallel(generateSubArray(this.i,this.j, this.mtrx))
-    
-        return this.mtrx
+        parallelize(generateSubArray, this.i, {i: this.i, j: this.j}, 'brain.json', 'data')
     }
 }
+
+const computer = new brain(4, 4)
+let mtrxPath = computer.generateArray()
 
 module.exports = {
     sinaptic: sinapsis,
